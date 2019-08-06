@@ -61,3 +61,34 @@ To convert a `.drawio` file to `png`:
 ```
 draw.io -x -f png -o Diagram.png Diagram.drawio 
 ```
+
+### Convert multiple files
+
+The drawio CLI also works with folders:
+
+Given this tree of file (multiple `.drawio` files in one folder) and an empty folder called `out/`:
+
+```
+.
+├── files
+│   ├── Diag.xml
+│   ├── Diagram1.drawio
+│   └── Diagram2.drawio
+└── out
+```
+
+All the diagrams can be converted to PNG with:
+
+```
+draw.io -x -f png -o out/ files/
+```
+
+Console output:
+
+```
+files/Diag.xml -> out/Diag.xml.png
+files/Diagram1.drawio -> out/Diagram1.drawio.png
+files/Diagram2.drawio -> out/Diagram2.drawio.png
+```
+
+One png file is created for each diagram in the input folder.
