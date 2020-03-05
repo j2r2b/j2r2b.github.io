@@ -68,7 +68,7 @@ jobs:
 
     steps:
       - run:
-          name: Start mock-server
+          name: Start MockServer
           command: mvn -Dmockserver.serverPort=1080 -Dmockserver.logLevel=INFO org.mock-server:mockserver-maven-plugin:5.9.0:runForked
 
       - run:
@@ -77,7 +77,7 @@ jobs:
             curl --request PUT "http://localhost:1080/mockserver/reset"
 
       - run:
-          name: Stop mock-server
+          name: Stop MockServer
           command: mvn -Dmockserver.serverPort=1080 org.mock-server:mockserver-maven-plugin:5.9.0:stopForked
           when: always
 ```
@@ -118,9 +118,6 @@ jobs:
 
     steps:
       - run:
-          command: mvn -Dmockserver.serverPort=1080 -Dmockserver.logLevel=INFO org.mock-server:mockserver-maven-plugin:5.9.0:runForked
-
-      - run:
           name: Single step
           command: |
             mvn -Dmockserver.serverPort=1080 -Dmockserver.logLevel=INFO org.mock-server:mockserver-maven-plugin:5.9.0:runForked
@@ -128,6 +125,43 @@ jobs:
             mvn -Dmockserver.serverPort=1080 org.mock-server:mockserver-maven-plugin:5.9.0:stopForked
 ```
 
-There is also a `background` key on the steps that can be used at one specific step.
-I did not try it, but I imagine that processes started during a background step continue to run during the next steps.
-This could also be a possibility, but in this case you need to wait for MockServer to be started using `sleep` or "`curl` with retries" as explained in my article where [MockServer is started as secondary container](https://j2r2b.github.io/2020/03/04/use-mock-sever-in-circleci-builds.html).
+## CircleCI background steps
+
+CircleCI has also the possibility to run [background commands](https://circleci.com/docs/2.0/configuration-reference/#background-commands).
+In this case you need to start a blocking command inside this step. It can be using:
+
+* `java -jar` combined with a previous step to download the `jar` (as discussed at the beginning of this article)
+* the `mockserver-maven-plugin` but with the `run` command instead of `runForked` in order to run MockServer synchronously and block.
+
+Note that CircleCI will start the step marked with `background` and without waiting for anything it will continue with the next steps.
+This makes sense because background steps are typically starting a synchronous process that is never ending.
+
+In case of MockServer the startup takes few seconds. This means that if you perform directly a `curl` command, you will get the "Connection refused" error.
+As described in my article where [MockServer is started as secondary container](https://j2r2b.github.io/2020/03/04/use-mock-sever-in-circleci-builds.html), you need to introduce a "Wait for MockServer" step using `sleep` or "`curl` with retries".
+
+```yaml
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:8-jdk
+
+    steps:
+      - run:
+          name: Start MockServer
+          command: mvn -Dmockserver.serverPort=1080 -Dmockserver.logLevel=INFO org.mock-server:mockserver-maven-plugin:5.9.0:run
+          background: true
+
+      - run:
+          name: Wait for MockServer
+          command: |
+            curl --retry 30 --retry-delay 2 --retry-connrefused --request PUT "http://localhost:1080/mockserver/reset"
+
+      - run:
+          name: Curl test
+          # TODO: do something real instead of this placeholder command
+          command: |
+            curl --request PUT "http://localhost:1080/mockserver/reset"
+```
+
+I hope this article provides some valuable insights about how the steps can be combined when working with a local server and `curl` inside a CircleCI.

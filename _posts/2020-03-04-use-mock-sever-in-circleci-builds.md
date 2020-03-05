@@ -98,7 +98,7 @@ The first step becomes:
       - run:
           name: Wait for MockServer
           command: |
-            curl --retry 20 --retry-connrefused --request PUT "http://localhost:1080/mockserver/reset"
+            curl --retry 30 --retry-delay 2 --retry-connrefused --request PUT "http://localhost:1080/mockserver/reset"
 
       - run:
           name: Curl test
