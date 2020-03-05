@@ -4,7 +4,7 @@ title: "CircleCI step isolation"
 
 # CircleCI step isolation 
 
-To use MockServer inside a CircleCI build, using the [docker executor with MockServer as secondary container](2020-03-04-use-mock-sever-in-circleci-builds.md) works well.
+To use MockServer inside a CircleCI build, using the [docker executor with MockServer as secondary container](https://j2r2b.github.io/2020/03/04/use-mock-sever-in-circleci-builds.html) works well.
 
 In this article I explored an other way: start MockServer as java process.
 
@@ -130,4 +130,4 @@ jobs:
 
 There is also a `background` key on the steps that can be used at one specific step.
 I did not try it, but I imagine that processes started during a background step continue to run during the next steps.
-This could also be a possibility, but in this case you need to wait for MockServer to be started using `sleep` or "`curl` with retries" as explained in my article where [MockServer is started as secondary container](2020-03-04-use-mock-sever-in-circleci-builds.md).
+This could also be a possibility, but in this case you need to wait for MockServer to be started using `sleep` or "`curl` with retries" as explained in my article where [MockServer is started as secondary container](https://j2r2b.github.io/2020/03/04/use-mock-sever-in-circleci-builds.html).
