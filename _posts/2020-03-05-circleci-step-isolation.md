@@ -105,7 +105,7 @@ And it seems that I am not the only one:
 
 It was difficult for me to understand why this wasn't working.
 
-Even if I did not find a precise statement in the [steps reference guide](https://circleci.com/docs/2.0/configuration-reference/#steps), my conclusion is that because each steps is using a separated shell, the operations started during one step might no longer be present in the next steps.
+Even if I did not find a precise statement in the [steps reference guide](https://circleci.com/docs/2.0/configuration-reference/#steps), my conclusion is that because each steps is using a separated shell, the operations started during one step might no longer be running when the next steps are executed.
 
 It works as expected when I start MockServer and perform the `curl` command inside the same step:
 
@@ -128,12 +128,12 @@ jobs:
 ## CircleCI background steps
 
 CircleCI has also the possibility to run [background commands](https://circleci.com/docs/2.0/configuration-reference/#background-commands).
-In this case you need to start a blocking command inside this step. It can be using:
+In this case you need to start a blocking command inside this step. For MockServer you have two options:
 
 * `java -jar` combined with a previous step to download the `jar` (as discussed at the beginning of this article)
 * the `mockserver-maven-plugin` but with the `run` command instead of `runForked` in order to run MockServer synchronously and block.
 
-Note that CircleCI will start the step marked with `background` and without waiting for anything it will continue with the next steps.
+Note that CircleCI will start the step marked with `background` and without waiting for anything else it will continue with the next steps immediately.
 This makes sense because background steps are typically starting a synchronous process that is never ending.
 
 In case of MockServer the startup takes few seconds. This means that if you perform directly a `curl` command, you will get the "Connection refused" error.
