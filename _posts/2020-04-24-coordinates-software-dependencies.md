@@ -46,7 +46,7 @@ Their idea is to map the coordinates of other repositories to those values.
 ## GitHub:
 
 * **type** : `"git"`
-* **provider** : `"GitHub"`
+* **provider** : `"github"`
 * **namespace** : `<owner-name>`
 * **name** : `<repository-name>`
 * **revision** : `<commit-sha>`
