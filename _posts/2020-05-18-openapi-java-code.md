@@ -71,51 +71,9 @@ It can be a lot of work to create the Java code manually. The [empoa](https://op
 
  `OpenAPI document` (as Yaml or Json file) => `Java` code.
 
-The script to generate the java code is quite simple (presented as a simple [jbang](https://github.com/maxandersen/jbang) script to have the required dependencies):
+The script ([gist](https://gist.github.com/jmini/55fe3e1f337a2e1e45856e5dbbeb9328)) to generate the java code is quite simple (presented as a simple [jbang](https://github.com/maxandersen/jbang) script to have the required dependencies):
 
-```java
-//usr/bin/env jbang "$0" "$@" ; exit $?
-
-//DEPS org.openapitools.empoa:empoa-swagger-core:1.0.1
-//DEPS org.openapitools.empoa:empoa-javapoet:1.0.1
-//DEPS io.swagger.parser.v3:swagger-parser:2.0.19
-//DEPS org.slf4j:slf4j-simple:1.7.30
-
-import org.eclipse.microprofile.openapi.models.OpenAPI;
-import org.openapitools.empoa.javapoet.JavaFileConverter;
-import org.openapitools.empoa.swagger.core.internal.SwAdapter;
-
-import com.squareup.javapoet.JavaFile;
-
-import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.parser.core.models.ParseOptions;
-import io.swagger.v3.parser.core.models.SwaggerParseResult;
-
-public class generateCode {
-
-    public static void main(String... args) {
-        if(args.length == 0) {
-            System.err.println("Expecting arguments:");
-            System.err.println("   - Path to the OpenAPI specification Json or Yaml file (mandatory)");
-            System.err.println("   - Class name (if omitted \"SpecMain\" is used)");
-            System.err.println("   - Package name (if omitted \"tmp\" is used)");
-            System.exit(1);
-        } else {
-            String packageName = (args.length > 1) ? args[2] : "tmp";
-            String className = (args.length > 0) ? args[1] : "Spec";
-            String specLocation =  args[0];
-            System.out.println("// Generated based on spec: " + specLocation);
-            final OpenAPIParser openApiParser = new OpenAPIParser();
-            final ParseOptions options = new ParseOptions();
-            final SwaggerParseResult parserResult = openApiParser.readLocation(specLocation, null, options);
-
-            OpenAPI openAPI = SwAdapter.toOpenAPI(parserResult.getOpenAPI());
-            JavaFile javaFile = JavaFileConverter.createOpenAPI(openAPI, packageName, className);
-            System.out.println(javaFile.toString());
-        }
-    }
-}
-```
+{% gist 55fe3e1f337a2e1e45856e5dbbeb9328 %}
 
 Usage:
 ```
