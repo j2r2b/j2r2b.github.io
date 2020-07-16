@@ -71,7 +71,7 @@ It can be a lot of work to create the Java code manually. The [empoa](https://op
 
  `OpenAPI document` (as Yaml or Json file) => `Java` code.
 
-The script ([gist](https://gist.github.com/jmini/55fe3e1f337a2e1e45856e5dbbeb9328)) to generate the java code is quite simple (presented as a simple [jbang](https://github.com/maxandersen/jbang) script to have the required dependencies):
+The script ([gist](https://gist.github.com/jmini/55fe3e1f337a2e1e45856e5dbbeb9328)) to generate the java code is quite simple (presented as a simple [jbang](https://jbang.dev) script to have the required dependencies):
 
 {% gist 55fe3e1f337a2e1e45856e5dbbeb9328 %}
 
