@@ -10,7 +10,7 @@ This is an XML file, but for performance reasons (in online scenarios) the conte
 Assuming you have only one tab "Page-1”, your `*.drawio` file looks like this:
 
 ```xml
-<mxfile modified="2019-08-01T09:23:36.597Z" host="" agent=“..” etag="M34yXdgxU2q9AoIo9Xkg" version="10.9.5" type="device">
+<mxfile modified="2019-08-01T09:23:36.597Z" host="" agent=".." etag="M34yXdgxU2q9AoIo9Xkg" version="10.9.5" type="device">
     <diagram id="sgW9pF4t5AKx6TWdV9Rh" name="Page-1"><!-- diagram content here --></diagram>
 </mxfile>
 ```
@@ -59,11 +59,35 @@ You get something like this:
 If you would like to store your draw.io sources inside a git repository, storing the graphs as decompressed and formatted XML is way better to understand the changes between the revisions.
 
 draw.io Desktop is able to open a `*.drawio` file containing some decompressed xml content.
-But as soon as the file is modified and saved, it is stored back in the compressed format.
 
 ---
 
-By the way under "Menu > Extras > Edit Diagram…" inside the draw.io application you can access the same decoded xml content.
+Defining the format inside each file is possible.
+You just need to set the `compressed` attribute to `true` or `false` inside the `mxfile` root tag:
+
+Set compressed xml format in the file:
+
+```xml
+<mxfile compressed="true" host="Electron" modified="2020-08-13T04:03:47.601Z" agent=".." etag="kCKDMwt64oLDwPazfI5o" version="13.6.2" type="device">
+  <diagram id="rx-sphuGNtGZ9p413biy" name="Page-1"><!-- compressed diagram content here --></diagram>
+</mxfile>
+```
+
+Set decompressed xml format in the file:
+
+```xml
+<mxfile compressed="false" host="Electron" modified="2020-08-13T04:03:47.601Z" agent=".."  etag="kCKDMwt64oLDwPazfI5o" version="13.6.2" type="device">
+  <diagram id="rx-sphuGNtGZ9p413biy" name="Page-1">
+    <!-- decompressed diagram content here: <mxGraphModel>..</mxGraphModel> -->
+  </diagram>
+</mxfile>
+```
+
+When the attribute is set, the compression is preserved on the next save.
+
+---
+
+Under "Menu > Extras > Edit Diagram…" inside the draw.io application you can access the decoded xml content.
 
 ![Edit Diagram to see the xml sources in draw.io](/images/2019-08-01-drawio-edit-diagram.png)
 
