@@ -2,8 +2,6 @@
 title: "Kotlin Anti-Pattern: Explicit Labeled Returns"
 ---
 
-_Written with the help of Gemini_
-
 ## Kotlin Anti-Pattern: Explicit Labeled Returns
 
 Using `return@label` adds unnecessary textual noise and departs from idiomatic Kotlin styling. It is often used unnecessarily when a scoping block inside the lambda inadvertently changes the implicit return type.
@@ -50,3 +48,6 @@ orderProcessor.update(orderId) { order ->
 }
 ```
 
+---
+
+_✨ This article was drafted with the assistance of Gemini and has been thoroughly reviewed, edited, and enriched by me to ensure accuracy and originality._

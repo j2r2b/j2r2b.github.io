@@ -2,8 +2,6 @@
 title: "Why copy-pasting from your Terminal isn't as simple as you think?"
 ---
 
-_Written with the help of Gemini_
-
 ## Why copy-pasting from your Terminal isn't as simple as you think?
 
 Copy-pasting text from a terminal window into a rich-text editor like Google Docs or TextEdit doesn't always produce the result you expect.
@@ -88,3 +86,7 @@ Your terminal isn't just a text display—it dictates what formatting data reach
 
 -   Use modern terminals like **Ghostty** that write HTML directly to the clipboard.
 -   Remember that web-based apps (like Google Docs) specifically look for **HTML** data on the clipboard, while desktop apps (like TextEdit) often prioritise **RTF**.
+
+---
+
+_✨ This article was drafted with the assistance of Gemini and has been thoroughly reviewed, edited, and enriched by me to ensure accuracy and originality._

@@ -2,8 +2,6 @@
 title: "Using yq to Edit and Mutate JSON Files"
 ---
 
-_Written with the help of Gemini_
-
 ## Using yq to Edit and Mutate JSON Files
 
 When it came to managing configuration files, I was looking for a clean way to modify large JSON files—specifically to alter certain values dynamically based on the deployment environment.
@@ -86,3 +84,7 @@ yq -o=json --from-file adjustments/global/changes.yq input.json | yq -o=json --f
 ```
 
 This layout allows you to maintain a pristine master JSON file while isolating environment-specific variances. No more complex Bash wrappers, just clean, pipeline-friendly streaming configurations!
+
+---
+
+_✨ This article was drafted with the assistance of Gemini and has been thoroughly reviewed, edited, and enriched by me to ensure accuracy and originality._
