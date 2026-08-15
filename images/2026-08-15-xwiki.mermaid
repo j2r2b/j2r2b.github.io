@@ -1,0 +1,26 @@
+%% fontFamily must be set explicitly: without it mermaid.ink only emits a
+%% --mermaid-font-family CSS variable that nothing reads, and the labels
+%% fall back to the browser default serif when the SVG is used in an <img>.
+%%{init: {"fontFamily": "arial, helvetica, sans-serif"} }%%
+flowchart TD
+    src["Core Source Code<br/>(Clean)"]
+    core["xwiki-core.jar<br/>(Clean)"]
+    aspects["xwiki-legacy AspectJ Aspects<br/>(Defines deprecated methods via ITDs)"]
+    legacyJar["xwiki-legacy.jar<br/>(modern code + injected legacy API)"]
+    coreJar["xwiki-core.jar<br/>(Slim &amp; modern)"]
+
+    src -->|Standard Compile| core
+    core -->|AspectJ Weaving| aspects
+    core -->|"Direct dependency<br/>for modern apps"| coreJar
+    aspects --> legacyJar
+
+    %% invisible link: pushes coreJar down one rank so the two jars line up
+    aspects ~~~ coreJar
+
+    classDef source fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20
+    classDef weave fill:#fff8e1,stroke:#f9a825,color:#7f5f00
+    classDef output fill:#e3f2fd,stroke:#1565c0,color:#0d47a1
+
+    class src,core source
+    class aspects weave
+    class legacyJar,coreJar output
